@@ -1,11 +1,17 @@
 package com.company;
 
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
         GamePlayOutPut playGame = new GamePlayOutPut();
-        int userSelection = 0;
-        int oppositionSelection = 0;
+        LocationSelection locationSelection = new LocationSelection();
+
+        Scanner scanner = new Scanner(System.in);
+
+        int userSelection;
+        int oppositionSelection;
 
         /*
         This is the gameboard as an array -
@@ -17,7 +23,24 @@ public class Main {
                 {'-', '+', '-', '+', '-'},
                 {' ', '|', ' ', '|', ' '}};
 
-        playGame.printGameBoard(boardLayout);
-        playGame.gamePlay(boardLayout);
+        System.out.println("Please select a position: ");
+        while (true) {
+            String winner;
+            playGame.printGameBoard(boardLayout);
+            locationSelection.assignUserInput(boardLayout);
+            winner = locationSelection.identifyWinner();
+            if (!winner.isEmpty()) {
+                playGame.printGameBoard(boardLayout);
+                System.out.println(winner);
+                break;
+            }
+            locationSelection.assignOpposingInput(boardLayout);
+            winner = locationSelection.identifyWinner();
+            if (!winner.isEmpty()) {
+                playGame.printGameBoard(boardLayout);
+                System.out.println(winner);
+                break;
+            }
+        }
     }
 }
