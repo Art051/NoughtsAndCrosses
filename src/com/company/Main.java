@@ -10,6 +10,9 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
+        int userSelection;
+        int oppositionSelection;
+
         /*
         This is the gameboard as an array -
         3x3 gameboard is a 5x5 array to allow for the lines b
