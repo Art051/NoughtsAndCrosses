@@ -3,18 +3,20 @@ package com.company;
 import java.util.*;
 
 public class LocationSelection {
-    private Scanner scanner = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
 
-    //ArrayLists to store the positions of each player to compare against winning position combinations
-    public ArrayList<Integer> userPositionsUsed = new ArrayList<>();
-    public ArrayList<Integer> opponentPositionsUsed = new ArrayList<>();
     int userSelection;
     int oppositionSelection;
+
+    //ArrayLists to store the positions of each player to compare against winning position combinations
+    //Array to store the winning positions
+    ArrayList<Integer> userPositionsUsed = new ArrayList<>();
+    ArrayList<Integer> opponentPositionsUsed = new ArrayList<>();
 
     //method for getting and assigning user input to the array
     public void assignUserInput(char[][] boardLayout) {
         userSelection = scanner.nextInt();
-        while(userPositionsUsed.contains(userSelection) || opponentPositionsUsed.contains(userSelection)){
+        while(userPositionsUsed.contains(userSelection) || opponentPositionsUsed.contains(userSelection)) {
             System.out.println("Please choose another position");
             userSelection = scanner.nextInt();
         }
@@ -36,7 +38,7 @@ public class LocationSelection {
     public void assignOpposingInput(char[][] boardLayout) {
         Random random = new Random();
         oppositionSelection = random.nextInt(9 + 1);
-        while(userPositionsUsed.contains(oppositionSelection) || opponentPositionsUsed.contains(oppositionSelection)){
+        while (userPositionsUsed.contains(oppositionSelection) || opponentPositionsUsed.contains(oppositionSelection)) {
             oppositionSelection = random.nextInt(9 + 1);
         }
         switch (oppositionSelection) {
@@ -53,9 +55,8 @@ public class LocationSelection {
         opponentPositionsUsed.add(oppositionSelection);
     }
 
-    //method to identify a winner - horizontal, vertical or diagonal 3 identical pieces - each winning combination is a list
+    //method for establishing the winning criteria and declaring a winner
     public String identifyWinner() {
-        String winner = "";
         List<List> winningCombinations = new ArrayList<>();
         winningCombinations.add(Arrays.asList(1, 2, 3));
         winningCombinations.add(Arrays.asList(4, 5, 6));
@@ -66,12 +67,15 @@ public class LocationSelection {
         winningCombinations.add(Arrays.asList(1, 5, 9));
         winningCombinations.add(Arrays.asList(7, 5, 3));
 
-        if (userPositionsUsed.contains(winningCombinations))
-            winner = "User";
-        else if (opponentPositionsUsed.contains(winningCombinations))
-            winner = "Opposition";
-        else if (userPositionsUsed.size() + opponentPositionsUsed.size() == 9)
-            winner = "Tie!";
-        return winner;
+        for(List winningCombos : winningCombinations) {
+            if(userPositionsUsed.containsAll(winningCombos)) {
+                return "User wins!";
+            } else if (opponentPositionsUsed.containsAll(winningCombos)) {
+                return "Opponent wins!";
+            } else if (userPositionsUsed.size() + opponentPositionsUsed.size() == 9) {
+                return "Tie!";
+            }
+        }
+        return "";
     }
 }

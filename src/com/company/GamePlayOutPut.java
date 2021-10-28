@@ -1,7 +1,6 @@
 package com.company;
 
 public class GamePlayOutPut {
-    LocationSelection locationSelection = new LocationSelection();
 
     //method to print the board
     public void printGameBoard(char[][] boardLayout) {
